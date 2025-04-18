@@ -19,3 +19,15 @@ export default function two_crystal_balls(breaks: boolean[]): number {
 
     return -1;
 }
+
+// export default function find_first_break(breaks: boolean[]): number {
+//     for (let i = 0; i < breaks.length; i++) {
+//         const isBroken = breaks[i];
+
+//         if (isBroken) {
+//             return i;
+//         }
+//     }
+
+//     return -1;
+// }
