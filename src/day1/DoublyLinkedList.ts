@@ -43,7 +43,6 @@ export default class DoublyLinkedList<T> {
 
         this.length++;
         const curr = this.getAt(idx) as Node<T>;
-
         const node = { value: item } as Node<T>;
 
         node.next = curr;
@@ -71,7 +70,7 @@ export default class DoublyLinkedList<T> {
 
     remove(item: T): T | undefined {
         let curr = this.head;
-        while (curr) {
+        for (let i = 0; curr && i < this.length; i++) {
             if (curr.value === item) {
                 break;
             }
