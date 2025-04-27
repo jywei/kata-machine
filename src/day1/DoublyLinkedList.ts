@@ -31,11 +31,41 @@ export default class DoublyLinkedList<T> {
     }
     
     insertAt(item: T, idx: number): void {
+        if (idx > this.length) {
+            throw new Error("Index out of bounds");
+        } else if (idx === 0) {
+            this.prepend(item);
+            return;
+        } else if (idx === this.length) {
+            this.append(item);
+            return;
+        }
 
+        this.length++;
+        const curr = this.get(idx) as Node<T>;
+        const node = { value: item } as Node<T>;
+
+        node.next = curr;
+        node.prev = curr.prev;
+        curr.prev = node;
+
+        if (curr.prev) {
+            curr.prev.next = node;
+        }   
     }
 
     append(item: T): void {
+        const node = { value: item } as Node<T>;
 
+        this.length++;
+        if (!this.tail) {
+            this.head = node;
+            this.tail = node;
+        }   
+
+        node.prev = this.tail;
+        this.tail.next = node;
+        this.tail = node;
     }
 
     remove(item: T): T | undefined {
