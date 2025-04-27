@@ -70,7 +70,13 @@ export default class DoublyLinkedList<T> {
     }
 
     remove(item: T): T | undefined {
-        const curr = this.head;
+        let curr = this.head;
+        while (curr) {
+            if (curr.value === item) {
+                break;
+            }
+            curr = curr.next;
+        }
 
         if (!curr) {
             return undefined;
@@ -84,13 +90,11 @@ export default class DoublyLinkedList<T> {
     }
 
     removeAt(idx: number): T | undefined {
-        const curr = this.getAt(idx) as Node<T>;
-
-        if (!curr) {
+        const node = this.getAt(idx);
+        if (!node) {
             return undefined;
         }
-
-        return this.remove(curr.value);
+        return this.removeNode(node);
     }
 
     private removeNode(node: Node<T>): T | undefined {
@@ -104,16 +108,19 @@ export default class DoublyLinkedList<T> {
 
         if (node.prev) {
             node.prev.next = node.next;
+        } else {
+            this.head = node.next;
         }
 
         if (node.next) {
             node.next.prev = node.prev;
+        } else {
+            this.tail = node.prev;
         }
 
         node.prev = node.next = undefined;
-
         return node.value;
-     }
+    }
 
     private getAt(idx: number): Node<T> | undefined {
         let curr = this.head;
