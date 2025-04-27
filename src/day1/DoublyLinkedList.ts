@@ -128,4 +128,14 @@ export default class DoublyLinkedList<T> {
         }
         return curr;
     }
+
+    private debug(): void {
+        let curr = this.head;
+        let out = "";
+        for (let i = 0; curr && i < this.length; i++) {
+            out += `${curr.value} <-> `;
+            curr = curr.next;
+        }
+        console.log(out);
+    }
 }
