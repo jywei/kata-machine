@@ -59,8 +59,8 @@ export default class DoublyLinkedList<T> {
 
         this.length++;
         if (!this.tail) {
-            this.head = node;
-            this.tail = node;
+            this.head = this.tail = node;
+            return;
         }   
 
         node.prev = this.tail;
