@@ -42,7 +42,8 @@ export default class DoublyLinkedList<T> {
         }
 
         this.length++;
-        const curr = this.get(idx) as Node<T>;
+        const curr = this.getAt(idx) as Node<T>;
+
         const node = { value: item } as Node<T>;
 
         node.next = curr;
@@ -69,18 +70,30 @@ export default class DoublyLinkedList<T> {
     }
 
     remove(item: T): T | undefined {
-        let curr = this.head;
-        for (let i = 0; curr && i < this.length; i++) {
-            if (curr.value === item) {
-                break;
-            }
-            curr = curr.next;
-        }
+        const curr = this.head;
 
         if (!curr) {
             return undefined;
         }
 
+        return this.removeNode(curr);
+    }
+
+    get(idx: number): T | undefined {
+        return this.getAt(idx)?.value;
+    }
+
+    removeAt(idx: number): T | undefined {
+        const curr = this.getAt(idx) as Node<T>;
+
+        if (!curr) {
+            return undefined;
+        }
+
+        return this.remove(curr.value);
+    }
+
+    private removeNode(node: Node<T>): T | undefined {
         this.length--;
 
         if (this.length === 0) {
@@ -88,39 +101,25 @@ export default class DoublyLinkedList<T> {
             this.head = this.tail = undefined;
             return out;
         }
-        
-        if (curr.prev) {
-            curr.prev.next = curr.next;
+
+        if (node.prev) {
+            node.prev.next = node.next;
         }
 
-        if (curr.next) {
-            curr.next.prev = curr.prev;
+        if (node.next) {
+            node.next.prev = node.prev;
         }
 
+        node.prev = node.next = undefined;
 
-        if (curr === this.head) {
-            this.head = curr.next;
-        }
+        return node.value;
+     }
 
-        if (curr === this.tail) {
-            this.tail = curr.prev;
-        }
-
-        curr.prev = curr.next = undefined;
-
-        return curr.value;
-    }
-
-    get(idx: number): T | undefined {
+    private getAt(idx: number): Node<T> | undefined {
         let curr = this.head;
-        // loop through the list until we find the index, and it has to be something there
-        for (let i = 0; i < idx && curr; i++) {
+        for (let i = 0; curr && i < idx; i++) {
             curr = curr.next;
         }
-        return curr?.value;
-    }
-
-    removeAt(idx: number): T | undefined {
-
+        return curr;
     }
 }
